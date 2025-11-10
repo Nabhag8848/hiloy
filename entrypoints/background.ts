@@ -1,22 +1,44 @@
 export default defineBackground(() => {
-  console.log('Background script loaded!', { id: browser.runtime.id });
+  browser.tabs.onActivated.addListener(async ({ tabId }) => {
+    if (tabId) {
+      const tab = await browser.tabs.get(tabId);
+      const { url } = tab;
 
-  // Handle extension icon click to open sidepanel
-  browser.action.onClicked.addListener(async (tab) => {
-    if (tab.id) {
-      await browser.sidePanel.open({ tabId: tab.id });
+      if (!url?.includes("myntra.com")) {
+        await browser.sidePanel.setOptions({
+          path: "sidepanel.html",
+          tabId,
+          enabled: false,
+        });
+      }
     }
   });
 
-  // Set up sidepanel options on install
-  browser.runtime.onInstalled.addListener(async () => {
-    await browser.sidePanel.setOptions({
-      path: 'sidepanel.html',
-      enabled: true
-    });
-    
-    await browser.sidePanel.setPanelBehavior({
-      openPanelOnActionClick: true
-    });
+  browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    console.log("Tab updated", tabId, changeInfo, tab);
+
+    if (tabId) {
+      const tab = await browser.tabs.get(tabId);
+      const { url } = tab;
+      if (url?.includes("myntra.com")) {
+        await browser.sidePanel.setOptions({
+          path: "sidepanel.html",
+          tabId,
+          enabled: true,
+        });
+
+        await browser.sidePanel.setPanelBehavior({
+          openPanelOnActionClick: true,
+        });
+
+        await browser.sidePanel.open({ tabId });
+      } else {
+        await browser.sidePanel.setOptions({
+          path: "sidepanel.html",
+          tabId,
+          enabled: false,
+        });
+      }
+    }
   });
 });

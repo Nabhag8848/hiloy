@@ -1,21 +1,21 @@
-import { useAppConfig } from '#imports'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { useAppConfig } from "#imports";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
   CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-import { Switch } from '@/components/ui/switch'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useSettings } from '@/hooks/use-settings'
-import { useTheme } from '@/hooks/use-theme'
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSettings } from "@/hooks/use-settings";
+import { useTheme } from "@/hooks/use-theme";
 import {
   Calendar,
   Heart,
@@ -25,33 +25,42 @@ import {
   Moon,
   Settings,
   Sun,
-  User
-} from 'lucide-react'
+  User,
+} from "lucide-react";
 
 function App() {
-  const config = useAppConfig()
-  const { appearance, system, ui, loading, updateAppearance, updateSystem, updateUI, resetSettings } = useSettings()
+  const config = useAppConfig();
+  const {
+    appearance,
+    system,
+    ui,
+    loading,
+    updateAppearance,
+    updateSystem,
+    updateUI,
+    resetSettings,
+  } = useSettings();
   const { resolvedTheme, setTheme } = useTheme({
     theme: appearance.theme,
-    onThemeChange: (theme) => updateAppearance({ theme })
-  })
+    onThemeChange: (theme) => updateAppearance({ theme }),
+  });
 
   const themeOptions = [
-    { value: 'system', label: 'System', icon: Monitor },
-    { value: 'light', label: 'Light', icon: Sun },
-    { value: 'dark', label: 'Dark', icon: Moon }
-  ] as const
+    { value: "system", label: "System", icon: Monitor },
+    { value: "light", label: "Light", icon: Sun },
+    { value: "dark", label: "Dark", icon: Moon },
+  ] as const;
 
   const handleSyncIntervalChange = (value: string) => {
-    const interval = parseInt(value)
+    const interval = parseInt(value);
     if (!isNaN(interval) && interval > 0) {
-      updateSystem({ syncInterval: interval })
+      updateSystem({ syncInterval: interval });
     }
-  }
+  };
 
   const handleTabChange = (value: string) => {
-    updateUI({ activeTab: value })
-  }
+    updateUI({ activeTab: value });
+  };
 
   if (loading) {
     return (
@@ -60,53 +69,18 @@ function App() {
           <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      {/* Header */}
-      <div className="border-b px-4 py-3">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <Heart className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <div>
-            <h1 className="font-semibold text-lg">Sidepanel Template</h1>
-            <p className="text-sm text-muted-foreground">
-              WXT + Tailwind CSS 4.0 + shadcn/ui
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Content */}
       <div className="flex-1 overflow-hidden">
-        <Tabs value={ui.activeTab} onValueChange={handleTabChange} className="h-full flex flex-col gap-0">
-          <TabsList className="h-auto rounded-none border-b bg-transparent p-0 w-full">
-            <TabsTrigger
-              value="home"
-              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
-            >
-              <House className="h-4 w-4" />
-              Home
-            </TabsTrigger>
-            <TabsTrigger
-              value="profile"
-              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
-            >
-              <User className="h-4 w-4" />
-              Profile
-            </TabsTrigger>
-            <TabsTrigger
-              value="settings"
-              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </TabsTrigger>
-          </TabsList>
-
+        <Tabs
+          value={ui.activeTab}
+          onValueChange={handleTabChange}
+          className="h-full flex flex-col gap-0"
+        >
           <TabsContent value="home" className="flex-1 overflow-hidden">
             <ScrollArea className="h-full">
               <div className="space-y-4 p-4">
@@ -251,8 +225,8 @@ function App() {
                     <Label className="text-sm font-medium">Theme</Label>
                     <div className="grid grid-cols-3 gap-2">
                       {themeOptions.map((option) => {
-                        const Icon = option.icon
-                        const isActive = appearance.theme === option.value
+                        const Icon = option.icon;
+                        const isActive = appearance.theme === option.value;
                         return (
                           <Button
                             key={option.value}
@@ -264,7 +238,7 @@ function App() {
                             <Icon className="h-4 w-4" />
                             <span className="text-xs">{option.label}</span>
                           </Button>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -292,7 +266,9 @@ function App() {
                     </div>
                     <Switch
                       checked={system.notifications}
-                      onCheckedChange={(checked) => updateSystem({ notifications: checked })}
+                      onCheckedChange={(checked) =>
+                        updateSystem({ notifications: checked })
+                      }
                     />
                   </div>
 
@@ -341,11 +317,11 @@ function App() {
                     </div>
                     <Badge
                       variant={
-                        config.features?.enableChat ? 'default' : 'secondary'
+                        config.features?.enableChat ? "default" : "secondary"
                       }
                       className="text-xs"
                     >
-                      {config.features?.enableChat ? 'Enabled' : 'Disabled'}
+                      {config.features?.enableChat ? "Enabled" : "Disabled"}
                     </Badge>
                   </div>
 
@@ -369,7 +345,11 @@ function App() {
                 <Separator />
 
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1" onClick={resetSettings}>
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={resetSettings}
+                  >
                     Reset
                   </Button>
                   <Button className="flex-1">Save Changes</Button>
@@ -377,10 +357,33 @@ function App() {
               </div>
             </ScrollArea>
           </TabsContent>
+          <TabsList className="h-auto rounded-none border-b bg-transparent p-0 w-full">
+            <TabsTrigger
+              value="home"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
+            >
+              <House className="h-4 w-4" />
+              History
+            </TabsTrigger>
+            <TabsTrigger
+              value="profile"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
+            >
+              <User className="h-4 w-4" />
+              Try on
+            </TabsTrigger>
+            <TabsTrigger
+              value="settings"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
+            >
+              <Settings className="h-4 w-4" />
+              Settings
+            </TabsTrigger>
+          </TabsList>
         </Tabs>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
