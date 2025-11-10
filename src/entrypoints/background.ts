@@ -6,7 +6,6 @@ export default defineBackground(() => {
 
       if (!url?.includes("myntra.com")) {
         await browser.sidePanel.setOptions({
-          path: "sidepanel.html",
           tabId,
           enabled: false,
         });
@@ -15,8 +14,6 @@ export default defineBackground(() => {
   });
 
   browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-    console.log("Tab updated", tabId, changeInfo, tab);
-
     if (tabId) {
       const tab = await browser.tabs.get(tabId);
       const { url } = tab;
@@ -30,11 +27,8 @@ export default defineBackground(() => {
         await browser.sidePanel.setPanelBehavior({
           openPanelOnActionClick: true,
         });
-
-        await browser.sidePanel.open({ tabId });
       } else {
         await browser.sidePanel.setOptions({
-          path: "sidepanel.html",
           tabId,
           enabled: false,
         });

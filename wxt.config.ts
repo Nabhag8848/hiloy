@@ -4,10 +4,11 @@ import path from "path";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
+  srcDir: "src",
   outDir: "dist",
   modules: ["@wxt-dev/module-react"],
   alias: {
-    "@": path.resolve(__dirname, "./"),
+    "@": path.resolve(__dirname, "./src"),
   },
   vite: () => ({
     plugins: [tailwindcss()],
@@ -20,5 +21,8 @@ export default defineConfig({
     action: {
       default_title: "Open Sidepanel",
     },
+  },
+  webExt: {
+    disabled: true,
   },
 });

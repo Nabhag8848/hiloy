@@ -1,6 +1,7 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
+/* stylelint-disable unknownAtRules */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

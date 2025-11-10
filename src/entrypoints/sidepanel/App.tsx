@@ -357,7 +357,10 @@ function App() {
               </div>
             </ScrollArea>
           </TabsContent>
-          <TabsList className="h-auto rounded-none border-b bg-transparent p-0 w-full">
+          <TabsList
+            className="h-auto rounded-none border-b bg-transparent p-0 w-full"
+            defaultValue="profile"
+          >
             <TabsTrigger
               value="home"
               className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-4 flex items-center gap-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none flex-1"
