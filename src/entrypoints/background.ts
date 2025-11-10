@@ -1,3 +1,5 @@
+import { onMessage } from "@/lib/messaging";
+
 export default defineBackground(() => {
   browser.tabs.onActivated.addListener(async ({ tabId }) => {
     if (tabId) {
@@ -13,9 +15,8 @@ export default defineBackground(() => {
     }
   });
 
-  browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  browser.tabs.onUpdated.addListener(async (tabId, _changeInfo, tab) => {
     if (tabId) {
-      const tab = await browser.tabs.get(tabId);
       const { url } = tab;
       if (url?.includes("myntra.com")) {
         await browser.sidePanel.setOptions({
@@ -34,5 +35,11 @@ export default defineBackground(() => {
         });
       }
     }
+  });
+
+  onMessage("openSidePanel", async ({ sender }) => {
+    await browser.sidePanel.open({
+      tabId: sender.tab?.id,
+    });
   });
 });
